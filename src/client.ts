@@ -1,14 +1,18 @@
 import axios, { AxiosInstance } from 'axios';
 
 export class ApiClient {
+  private _congressNumber: number = 116;
   private apiVersion: string = 'v1';
-  //   private congressNumber: number = 116;
   private client: AxiosInstance;
 
   private apiKey: string;
 
   public constructor(options: APIOptions) {
     this.apiKey = options.apiKey;
+    if (options.congressNumber) {
+      this._congressNumber = options.congressNumber;
+    }
+
     this.client = this.getApi();
   }
 
@@ -21,6 +25,10 @@ export class ApiClient {
 
   public request(requestParams: RequestParams): Promise<any> {
     return this.client.get(`${requestParams.url}.json`);
+  }
+
+  public get congressNumber() {
+    return this._congressNumber;
   }
 }
 

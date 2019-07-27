@@ -1,4 +1,4 @@
-export type Chamber = 'house' | 'senate';
+export type Chamber = 'House' | 'Senate';
 
 export type URLString = string;
 
@@ -8,7 +8,7 @@ export interface BaseApiResult {
   results: any;
 }
 
-export interface BasePagedResponse {
+export interface BasePagedResult {
   chamber: Chamber;
   num_results: number;
   offset: number;

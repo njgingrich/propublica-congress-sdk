@@ -1,7 +1,7 @@
 import { BaseApiResult, URLString } from '../types';
 
 type Chamber = 'House' | 'Senate';
-type MemberId = string;
+export type MemberId = string;
 
 interface SharedMember {
   title: string;
@@ -180,7 +180,7 @@ interface MemberVote {
   position: string; // TODO: refine this
 }
 
-interface MemberComparison {
+interface MemberVoteComparison {
   first_member_id: MemberId;
   first_member_api_uri: URLString;
   second_member_id: MemberId;
@@ -191,6 +191,78 @@ interface MemberComparison {
   disagree_votes: string; // really a number
   agree_percent: string; // really a number
   disagree_percent: string; // really a number
+}
+
+interface MemberBill {
+  number: string;
+  api_uri: URLString;
+  title: string;
+  sponsor_uri: URLString;
+  introduced_date: string;
+  cosponsors: string;
+  committees: string;
+  latest_major_action_date: string;
+  latest_major_action: string;
+  first_member_date: string;
+  second_member_date: string;
+}
+
+interface MemberBillComparison {
+  first_member_api_uri: URLString;
+  second_member_api_uri: URLString;
+  chamber: Chamber;
+  congress: string;
+  common_bills: string;
+  bills: MemberBill[];
+}
+
+interface CosponsoredBill {
+  congress: string;
+  bill_id: string;
+  bill_type: string;
+  number: string;
+  bill_uri: URLString;
+  title: string;
+  short_title: string;
+  cosponsored_date: string;
+
+  sponsor_title: string;
+  sponsor_id: string;
+  sponsor_name: string;
+  sponsor_state: string;
+  sponsor_party: string;
+  sponsor_uri: URLString;
+  gpo_pdf_uri: URLString;
+  congressdotgov_url: URLString;
+  govtrack_url: URLString;
+  introduced_date: string;
+  active: boolean;
+  last_vote: string;
+  house_passage: boolean;
+  senate_passage: boolean;
+  enacted: boolean;
+  vetoed: boolean;
+  cosponsors: number;
+  cosponsors_by_party: {
+    R: number;
+    D: number;
+    I: number;
+  };
+  committees: string;
+  primary_subject: string;
+  summary: string;
+  summary_short: string;
+  latest_major_action_date: string;
+  latest_major_action: string;
+}
+
+interface MemberCosponsors {
+  id: string;
+  member_uri: URLString;
+  name: string;
+  num_results: number;
+  offset: number;
+  bills: CosponsoredBill[];
 }
 
 export interface MemberListResult extends BaseApiResult {
@@ -219,10 +291,26 @@ export interface CurrentMemberListResult extends BaseApiResult {
   results: CurrentMember[];
 }
 
+export interface LeavingMemberListResult extends BaseApiResult {
+  congress: string;
+  chamber: Chamber;
+  num_results: number;
+  offset: number;
+  members: LeavingMember[];
+}
+
 export interface MemberVotesResult extends BaseApiResult {
   results: MemberVotes[];
 }
 
-export interface MemberComparisonResult extends BaseApiResult {
-  results: MemberComparison;
+export interface MemberVoteComparisonResult extends BaseApiResult {
+  results: MemberVoteComparison;
+}
+
+export interface MemberBillComparisonResult extends BaseApiResult {
+  results: MemberBillComparison[];
+}
+
+export interface MemberCosponsorsResult extends BaseApiResult {
+  results: MemberCosponsors[];
 }

@@ -1,4 +1,4 @@
-import { BaseApiResult, BasePagedResponse, URLString } from '../types';
+import { BaseApiResult, BasePagedResult, URLString } from '../types';
 
 type Chamber = 'House' | 'Senate';
 
@@ -138,28 +138,28 @@ export interface SingleVoteResult extends BaseApiResult {
 }
 
 export interface MemberMissedVotesResult extends BaseApiResult {
-  results: BasePagedResponse & {
+  results: BasePagedResult & {
     congress: number;
     members: MemberMissedVotes[];
   };
 }
 
 export interface MemberPartyVotesResult extends BaseApiResult {
-  results: BasePagedResponse & {
+  results: BasePagedResult & {
     congress: number;
     members: MemberPartyVotes[];
   };
 }
 
 export interface MemberLoneNoVotesResult extends BaseApiResult {
-  results: BasePagedResponse & {
+  results: BasePagedResult & {
     congress: number;
     members: MemberLoneNoVotes[];
   };
 }
 
 export interface MemberPerfectVotesResult extends BaseApiResult {
-  results: BasePagedResponse & {
+  results: BasePagedResult & {
     congress: number;
     members: MemberPerfectVotes[];
   };
