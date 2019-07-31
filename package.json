@@ -1,5 +1,5 @@
 {
-  "name": "congress-api",
+  "name": "propublica-congress-sdk",
   "version": "0.1.0",
   "description": "SDK for ProPublica Congress API",
   "main": "dist/index.js",
