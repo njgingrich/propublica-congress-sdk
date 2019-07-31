@@ -2,8 +2,6 @@
 import { getApiClient, ApiClient } from './client';
 import './votes';
 import './members';
-import './committees';
-import './floorActions';
 
 class CongressAPI {
   public client: ApiClient;
@@ -13,7 +11,7 @@ class CongressAPI {
 }
 
 const api = new CongressAPI(process.env.API_KEY || '');
-const result = api.client.getVotesForDate('senate', new Date('2019-06-13'));
+const result = api.client.getVotesForDate('Senate', new Date('2019-06-13'));
 result.then(res => console.log(res));
 
 const result2 = api.client.getMemberVotePositions('A000367');

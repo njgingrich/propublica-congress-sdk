@@ -6,7 +6,7 @@ Currently a work-in-progress, but has a majority of the endpoints available.
 
 ## Usage
 
-```
+```js
 const api = new CongressAPI('my_api_key');
 
 const result = api.client.getVotesForDateRange(
