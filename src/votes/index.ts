@@ -15,9 +15,9 @@ declare module '../client' {
   }
 }
 
-ApiClient.prototype.getRecentVotes = async function(): Promise<VoteListResult> {
+ApiClient.prototype.getRecentVotes = async function(chamber: Chamber): Promise<VoteListResult> {
   const response = await this.request({
-    url: `/senate/votes/recent`,
+    url: `/${chamber}/votes/recent`,
   });
   return response.data as VoteListResult;
 };
@@ -28,7 +28,7 @@ ApiClient.prototype.getRollCallVote = async function(
 ): Promise<SingleVoteResult> {
   const sessionNumber = new Date().getUTCFullYear() % 2 ? 2 : 1;
   const response = await this.request({
-    url: `/senate/sessions/${sessionNumber}/votes/${number}`,
+    url: `/${chamber}/sessions/${sessionNumber}/votes/${number}`,
   });
   return response.data as SingleVoteResult;
 };

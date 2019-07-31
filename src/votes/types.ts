@@ -1,6 +1,4 @@
-import { BaseApiResult, BasePagedResult, URLString } from '../types';
-
-type Chamber = 'House' | 'Senate';
+import { BaseApiResult, BasePagedResult, Chamber, URLString } from '../types';
 
 export interface Bill {
   number: string;

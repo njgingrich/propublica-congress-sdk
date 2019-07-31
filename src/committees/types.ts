@@ -1,7 +1,5 @@
-import { BaseApiResult, BasePagedResult, URLString } from '../types';
+import { BaseApiResult, BasePagedResult, Chamber, URLString } from '../types';
 import { MemberId } from '../members/types';
-
-type Chamber = 'House' | 'Senate';
 type CommitteeId = string;
 
 interface BaseCommittee {
@@ -92,10 +90,9 @@ export interface SingleCommitteeResult extends BaseApiResult {
 }
 
 export interface CommitteeHearingListResult extends BaseApiResult {
-  results: BasePagedResult &
-    {
-      hearings: CommitteeHearing[];
-    }[];
+  results: (BasePagedResult & {
+    hearings: CommitteeHearing[];
+  })[];
 }
 
 export interface SingleSubcommitteeResult extends BaseApiResult {

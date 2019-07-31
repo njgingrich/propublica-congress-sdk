@@ -1,6 +1,4 @@
-import { BaseApiResult, URLString } from '../types';
-
-type Chamber = 'House' | 'Senate';
+import { BaseApiResult, Chamber, URLString } from '../types';
 export type MemberId = string;
 
 interface SharedMember {

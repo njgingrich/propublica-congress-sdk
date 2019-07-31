@@ -3,6 +3,7 @@ import { getApiClient, ApiClient } from './client';
 import './votes';
 import './members';
 import './committees';
+import './floorActions';
 
 class CongressAPI {
   public client: ApiClient;
