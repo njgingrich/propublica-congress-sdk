@@ -8,6 +8,8 @@ import {
   LeavingMemberListResult,
   MemberVotesResult,
   MemberVoteComparisonResult,
+  MemberBillComparisonResult,
+  MemberCosponsorsResult,
 } from './types';
 
 interface AllMembersParams extends ChamberRequestParams {
@@ -33,6 +35,10 @@ interface TwoMemberParams extends ChamberRequestParams {
   secondMemberId: string;
 }
 
+interface CosponsoredBillsParams extends MemberIdParams {
+  type: 'cosponsored' | 'withdrawn';
+}
+
 declare module '../client' {
   interface ApiClient {
     getAllMembers(params: AllMembersParams): Promise<MemberListResult>;
@@ -42,6 +48,8 @@ declare module '../client' {
     getLeavingMembers(params: LeavingMembersParams): Promise<LeavingMemberListResult>;
     getMemberVotePositions(params: MemberIdParams): Promise<MemberVotesResult>;
     getMemberVoteComparison(params: TwoMemberParams): Promise<MemberVoteComparisonResult>;
+    getMemberSponsorshipsComparison(params: TwoMemberParams): Promise<MemberBillComparisonResult>;
+    getCosponsoredBillsForMember(params: CosponsoredBillsParams): Promise<MemberCosponsorsResult>;
   }
 }
 
@@ -102,8 +110,27 @@ ApiClient.prototype.getMemberVotePositions = async function(params: MemberIdPara
 
 ApiClient.prototype.getMemberVoteComparison = async function(params: TwoMemberParams) {
   params = this.withDefaults(params);
+
   const response = await this.request({
     url: `/members/${params.firstMemberId}/votes/${params.secondMemberId}/${params.congressNumber}/${params.chamber}`,
   });
   return response.data as MemberVoteComparisonResult;
+};
+
+ApiClient.prototype.getMemberSponsorshipsComparison = async function(params: TwoMemberParams) {
+  params = this.withDefaults(params);
+
+  const response = await this.request({
+    url: `/members/${params.firstMemberId}/bills/${params.secondMemberId}/${params.congressNumber}/${params.chamber}`,
+  });
+  return response.data as MemberBillComparisonResult;
+};
+
+ApiClient.prototype.getCosponsoredBillsForMember = async function(params: CosponsoredBillsParams) {
+  params = this.withDefaults(params);
+
+  const response = await this.request({
+    url: `/members/${params.memberId}/bills/${params.type}`,
+  });
+  return response.data as MemberCosponsorsResult;
 };

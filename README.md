@@ -55,8 +55,6 @@ result.then(res => console.log(res));
   - personal explanations
 
 - Members
-  - getMemberBillSponsorships
-  - getCosponsoredBillsForMember
   - expenses
 
 - Bills

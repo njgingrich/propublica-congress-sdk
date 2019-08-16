@@ -127,6 +127,14 @@ export interface VoteListResult extends BaseApiResult {
   };
 }
 
+export interface NominationVotesResult extends BaseApiResult {
+  results: {
+    offset: number;
+    total_votes: number;
+    votes: Vote[];
+  };
+}
+
 export interface SingleVoteResult extends BaseApiResult {
   results: {
     votes: {
