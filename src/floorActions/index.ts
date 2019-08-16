@@ -22,6 +22,7 @@ CongressAPI.prototype.getRecentFloorActions = async function(params: ChamberRequ
 
   const response = await this.request({
     url: `/${params.chamber}/floor_updates`,
+    format: params.format,
   });
   return response.data as FloorActionListResult;
 };
@@ -31,6 +32,7 @@ CongressAPI.prototype.getFloorActionsForDate = async function(params: FloorActio
 
   const response = await this.request({
     url: `/${this.congressNumber}/${params.chamber}/${getDatePath(params.date)}`,
+    format: params.format,
   });
   return response.data as FloorActionListResult;
 };

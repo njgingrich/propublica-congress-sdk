@@ -34,6 +34,7 @@ CongressAPI.prototype.getAllCommittees = async function(params: CongressNumberPa
 
   const response = await this.request({
     url: `/${params.congressNumber}/${params.chamber}/committees`,
+    format: params.format,
   });
   return response.data as CommitteeListResult;
 };
@@ -43,6 +44,7 @@ CongressAPI.prototype.getCommittee = async function(params: CommitteeParams) {
 
   const response = await this.request({
     url: `/${params.congressNumber}/${params.chamber}/committees/${params.committeeId}`,
+    format: params.format,
   });
   return response.data as SingleCommitteeResult;
 };
@@ -52,6 +54,7 @@ CongressAPI.prototype.getRecentHearings = async function(params: CongressNumberP
 
   const response = await this.request({
     url: `/${params.congressNumber}/committees/hearings`,
+    format: params.format,
   });
   return response.data as CommitteeHearingListResult;
 };
@@ -61,6 +64,7 @@ CongressAPI.prototype.getCommitteeHearings = async function(params: CommitteePar
 
   const response = await this.request({
     url: `/${params.congressNumber}/${params.chamber}/committees/${params.committeeId}/hearings`,
+    format: params.format,
   });
   return response.data as CommitteeHearingListResult;
 };
@@ -70,6 +74,7 @@ CongressAPI.prototype.getSubcommittee = async function(params: SubcommitteeParam
 
   const response = await this.request({
     url: `/${params.congressNumber}/${params.chamber}/committees/${params.committeeId}/subcommittees/${params.subcommitteeId}`,
+    format: params.format,
   });
   return response.data as SingleSubcommitteeResult;
 };

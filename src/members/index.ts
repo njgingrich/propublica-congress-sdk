@@ -43,7 +43,7 @@ declare module '../api' {
   interface CongressAPI {
     getAllMembers(params: AllMembersParams): Promise<MemberListResult>;
     getMember(params: MemberIdParams): Promise<SingleMemberResult>;
-    getNewMembers(): Promise<NewMemberListResult>;
+    getNewMembers(params: BaseRequestParams): Promise<NewMemberListResult>;
     getMembersForState(params: MembersForStateParams): Promise<CurrentMemberListResult>;
     getLeavingMembers(params: LeavingMembersParams): Promise<LeavingMemberListResult>;
     getMemberVotePositions(params: MemberIdParams): Promise<MemberVotesResult>;
@@ -58,6 +58,7 @@ CongressAPI.prototype.getAllMembers = async function(params: AllMembersParams) {
 
   const response = await this.request({
     url: `/${this.congressNumber}/${params.chamber}/members`,
+    format: params.format,
   });
   return response.data as MemberListResult;
 };
@@ -67,13 +68,17 @@ CongressAPI.prototype.getMember = async function(params: MemberIdParams) {
 
   const response = await this.request({
     url: `/members/${params.memberId}`,
+    format: params.format,
   });
   return response.data as SingleMemberResult;
 };
 
-CongressAPI.prototype.getNewMembers = async function() {
+CongressAPI.prototype.getNewMembers = async function(params: BaseRequestParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
     url: `/members/new`,
+    format: params.format,
   });
   return response.data as NewMemberListResult;
 };
@@ -86,7 +91,7 @@ CongressAPI.prototype.getMembersForState = async function(params: MembersForStat
     url = `/members/${params.chamber}/${params.state}/${params.district}/current`;
   }
 
-  const response = await this.request({ url });
+  const response = await this.request({ url, format: params.format });
   return response.data as CurrentMemberListResult;
 };
 
@@ -95,6 +100,7 @@ CongressAPI.prototype.getLeavingMembers = async function(params: LeavingMembersP
 
   const response = await this.request({
     url: `${params.congressNumber}/${params.chamber}/members/leaving`,
+    format: params.format,
   });
   return response.data as LeavingMemberListResult;
 };
@@ -104,6 +110,7 @@ CongressAPI.prototype.getMemberVotePositions = async function(params: MemberIdPa
 
   const response = await this.request({
     url: `/members/${params.memberId}/votes`,
+    format: params.format,
   });
   return response.data as MemberVotesResult;
 };
@@ -113,6 +120,7 @@ CongressAPI.prototype.getMemberVoteComparison = async function(params: TwoMember
 
   const response = await this.request({
     url: `/members/${params.firstMemberId}/votes/${params.secondMemberId}/${params.congressNumber}/${params.chamber}`,
+    format: params.format,
   });
   return response.data as MemberVoteComparisonResult;
 };
@@ -122,6 +130,7 @@ CongressAPI.prototype.getMemberSponsorshipsComparison = async function(params: T
 
   const response = await this.request({
     url: `/members/${params.firstMemberId}/bills/${params.secondMemberId}/${params.congressNumber}/${params.chamber}`,
+    format: params.format,
   });
   return response.data as MemberBillComparisonResult;
 };
@@ -133,6 +142,7 @@ CongressAPI.prototype.getCosponsoredBillsForMember = async function(
 
   const response = await this.request({
     url: `/members/${params.memberId}/bills/${params.type}`,
+    format: params.format,
   });
   return response.data as MemberCosponsorsResult;
 };

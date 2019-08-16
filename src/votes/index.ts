@@ -1,6 +1,6 @@
 import { CongressAPI } from '../api';
 import { VoteListResult, SingleVoteResult, NominationVotesResult } from './types';
-import { ChamberRequestParams, PagedRequestParams } from '../types';
+import { ChamberRequestParams, PagedRequestParams, BaseRequestParams } from '../types';
 
 function getDateString(date: Date): string {
   return `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}`;
@@ -26,7 +26,7 @@ interface VoteTypeParams extends ChamberRequestParams {
   type: 'missed' | 'party' | 'loneno' | 'perfect';
 }
 
-interface NominationParams {
+interface NominationParams extends BaseRequestParams {
   congressNumber?: number;
 }
 
@@ -48,6 +48,7 @@ CongressAPI.prototype.getNominationVotes = async function(
 
   const response = await this.request({
     url: `/${params.congressNumber}/nominations`,
+    format: params.format,
   });
   return response.data as NominationVotesResult;
 };
@@ -59,6 +60,7 @@ CongressAPI.prototype.getRecentVotes = async function(
 
   const response = await this.request({
     url: `/${params.chamber}/votes/recent`,
+    format: params.format,
   });
   return response.data as VoteListResult;
 };
@@ -71,6 +73,7 @@ CongressAPI.prototype.getRollCallVote = async function(
   const sessionNumber = params.sessionNumber || new Date().getUTCFullYear() % 2 ? 2 : 1;
   const response = await this.request({
     url: `/${params.congressNumber}/${params.chamber}/sessions/${sessionNumber}/votes/${params.number}`,
+    format: params.format,
   });
   return response.data as SingleVoteResult;
 };
@@ -85,6 +88,7 @@ CongressAPI.prototype.getVotesForDateRange = async function(
 
   const response = await this.request({
     url: `/${params.chamber}/votes/${startString}/${endString}`,
+    format: params.format,
   });
   return response.data as VoteListResult;
 };
@@ -97,6 +101,7 @@ CongressAPI.prototype.getVotesForDate = async function(
 
   const response = await this.request({
     url: `/${params.chamber}/votes/${dateString}/${dateString}`,
+    format: params.format,
   });
   return response.data as VoteListResult;
 };
@@ -108,6 +113,7 @@ CongressAPI.prototype.getVotesForType = async function(
 
   const response = await this.request({
     url: `/${params.congressNumber}/${params.chamber}/votes/${params.type}`,
+    format: params.format,
   });
   return response.data as VoteListResult;
 };
