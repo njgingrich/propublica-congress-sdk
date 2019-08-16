@@ -1,5 +1,5 @@
 import { ApiClient } from '../client';
-import { Chamber } from '../types';
+import { BaseRequestParams, ChamberRequestParams } from '../types';
 import {
   MemberListResult,
   SingleMemberResult,
@@ -10,36 +10,55 @@ import {
   MemberVoteComparisonResult,
 } from './types';
 
+interface AllMembersParams extends ChamberRequestParams {
+  congressNumber?: number;
+}
+
+interface MemberIdParams extends BaseRequestParams {
+  memberId: string;
+}
+
+interface MembersForStateParams extends ChamberRequestParams {
+  state: string;
+  district?: string;
+}
+
+interface LeavingMembersParams extends ChamberRequestParams {
+  congressNumber?: number;
+}
+
+interface TwoMemberParams extends ChamberRequestParams {
+  congressNumber?: string;
+  firstMemberId: string;
+  secondMemberId: string;
+}
+
 declare module '../client' {
   interface ApiClient {
-    getAllMembers(chamber: Chamber): Promise<MemberListResult>;
-    getMember(memberId: string): Promise<SingleMemberResult>;
+    getAllMembers(params: AllMembersParams): Promise<MemberListResult>;
+    getMember(params: MemberIdParams): Promise<SingleMemberResult>;
     getNewMembers(): Promise<NewMemberListResult>;
-    getMembersForState(
-      chamber: Chamber,
-      state: string,
-      district?: string
-    ): Promise<CurrentMemberListResult>;
-    getLeavingMembers(): Promise<LeavingMemberListResult>;
-    getMemberVotePositions(memberId: string): Promise<MemberVotesResult>;
-    getMemberVoteComparison(
-      firstMemberId: string,
-      secondMemberId: string,
-      chamber: Chamber
-    ): Promise<MemberVoteComparisonResult>;
+    getMembersForState(params: MembersForStateParams): Promise<CurrentMemberListResult>;
+    getLeavingMembers(params: LeavingMembersParams): Promise<LeavingMemberListResult>;
+    getMemberVotePositions(params: MemberIdParams): Promise<MemberVotesResult>;
+    getMemberVoteComparison(params: TwoMemberParams): Promise<MemberVoteComparisonResult>;
   }
 }
 
-ApiClient.prototype.getAllMembers = async function(chamber: Chamber) {
+ApiClient.prototype.getAllMembers = async function(params: AllMembersParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `/${this.congressNumber}/${chamber}/members`,
+    url: `/${this.congressNumber}/${params.chamber}/members`,
   });
   return response.data as MemberListResult;
 };
 
-ApiClient.prototype.getMember = async function(memberId: string) {
+ApiClient.prototype.getMember = async function(params: MemberIdParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `/members/${memberId}`,
+    url: `/members/${params.memberId}`,
   });
   return response.data as SingleMemberResult;
 };
@@ -51,41 +70,40 @@ ApiClient.prototype.getNewMembers = async function() {
   return response.data as NewMemberListResult;
 };
 
-ApiClient.prototype.getMembersForState = async function(
-  chamber: Chamber,
-  state: string,
-  district?: string
-) {
-  let url = `/members/${chamber}/${state}/current`;
-  if (district) {
-    url = `/members/${chamber}/${state}/${district}/current`;
+ApiClient.prototype.getMembersForState = async function(params: MembersForStateParams) {
+  params = this.withDefaults(params);
+
+  let url = `/members/${params.chamber}/${params.state}/current`;
+  if (params.district) {
+    url = `/members/${params.chamber}/${params.state}/${params.district}/current`;
   }
 
   const response = await this.request({ url });
   return response.data as CurrentMemberListResult;
 };
 
-ApiClient.prototype.getLeavingMembers = async function() {
+ApiClient.prototype.getLeavingMembers = async function(params: LeavingMembersParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `${this.congressNumber}/members/leaving`,
+    url: `${params.congressNumber}/${params.chamber}/members/leaving`,
   });
   return response.data as LeavingMemberListResult;
 };
 
-ApiClient.prototype.getMemberVotePositions = async function(memberId: string) {
+ApiClient.prototype.getMemberVotePositions = async function(params: MemberIdParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `/members/${memberId}/votes`,
+    url: `/members/${params.memberId}/votes`,
   });
   return response.data as MemberVotesResult;
 };
 
-ApiClient.prototype.getMemberVoteComparison = async function(
-  firstMemberId: string,
-  secondMemberId: string,
-  chamber: Chamber
-) {
+ApiClient.prototype.getMemberVoteComparison = async function(params: TwoMemberParams) {
+  params = this.withDefaults(params);
   const response = await this.request({
-    url: `/members/${firstMemberId}/votes/${secondMemberId}/${this.congressNumber}/${chamber}`,
+    url: `/members/${params.firstMemberId}/votes/${params.secondMemberId}/${params.congressNumber}/${params.chamber}`,
   });
   return response.data as MemberVoteComparisonResult;
 };

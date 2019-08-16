@@ -1,8 +1,8 @@
-import { BaseApiResult, BasePagedResult, Chamber } from '../types';
+import { BaseApiResult, BasePagedResult, CapitalizedChamber } from '../types';
 
 interface FloorAction {
   congress: string;
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   timestamp: string;
   date: string;
   action_id: string;

@@ -1,60 +1,80 @@
 import { ApiClient } from '../client';
 import { VoteListResult, SingleVoteResult } from './types';
-import { Chamber } from '../types';
+import { ChamberRequestParams } from '../types';
 
 function getDateString(date: Date): string {
   return `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}`;
 }
 
+interface GetRollCallVoteParams extends ChamberRequestParams {
+  congressNumber?: number;
+  number: number;
+  sessionNumber?: 1 | 2;
+}
+
+interface GetVotesForDateRangeParams extends ChamberRequestParams {
+  startDate: Date;
+  endDate: Date;
+}
+
+interface GetVotesForDateParams extends ChamberRequestParams {
+  date: Date;
+}
+
 declare module '../client' {
   interface ApiClient {
-    getRecentVotes(chamber: Chamber): Promise<VoteListResult>;
-    getRollCallVote(chamber: Chamber, number: number): Promise<SingleVoteResult>;
-    getVotesForDateRange(chamber: Chamber, startDate: Date, endDate: Date): Promise<VoteListResult>;
-    getVotesForDate(chamber: Chamber, date: Date): Promise<VoteListResult>;
+    getRecentVotes(params: ChamberRequestParams): Promise<VoteListResult>;
+    getRollCallVote(params: GetRollCallVoteParams): Promise<SingleVoteResult>;
+    getVotesForDateRange(params: GetVotesForDateRangeParams): Promise<VoteListResult>;
+    getVotesForDate(params: GetVotesForDateParams): Promise<VoteListResult>;
   }
 }
 
-ApiClient.prototype.getRecentVotes = async function(chamber: Chamber): Promise<VoteListResult> {
+ApiClient.prototype.getRecentVotes = async function(
+  params: ChamberRequestParams
+): Promise<VoteListResult> {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `/${chamber}/votes/recent`,
+    url: `/${params.chamber}/votes/recent`,
   });
   return response.data as VoteListResult;
 };
 
 ApiClient.prototype.getRollCallVote = async function(
-  chamber: Chamber,
-  number: number
+  params: GetRollCallVoteParams
 ): Promise<SingleVoteResult> {
-  const sessionNumber = new Date().getUTCFullYear() % 2 ? 2 : 1;
+  params = this.withDefaults(params);
+
+  const sessionNumber = params.sessionNumber || new Date().getUTCFullYear() % 2 ? 2 : 1;
   const response = await this.request({
-    url: `/${chamber}/sessions/${sessionNumber}/votes/${number}`,
+    url: `/${params.congressNumber}/${params.chamber}/sessions/${sessionNumber}/votes/${params.number}`,
   });
   return response.data as SingleVoteResult;
 };
 
 ApiClient.prototype.getVotesForDateRange = async function(
-  chamber: Chamber,
-  startDate: Date,
-  endDate: Date
+  params: GetVotesForDateRangeParams
 ): Promise<VoteListResult> {
-  const startString = getDateString(startDate);
-  const endString = getDateString(endDate);
+  params = this.withDefaults(params);
+
+  const startString = getDateString(params.startDate);
+  const endString = getDateString(params.endDate);
 
   const response = await this.request({
-    url: `/${chamber}/votes/${startString}/${endString}`,
+    url: `/${params.chamber}/votes/${startString}/${endString}`,
   });
   return response.data as VoteListResult;
 };
 
 ApiClient.prototype.getVotesForDate = async function(
-  chamber: Chamber,
-  date: Date
+  params: GetVotesForDateParams
 ): Promise<VoteListResult> {
-  const dateString = getDateString(date);
+  params = this.withDefaults(params);
+  const dateString = getDateString(params.date);
 
   const response = await this.request({
-    url: `/${chamber}/votes/${dateString}/${dateString}`,
+    url: `/${params.chamber}/votes/${dateString}/${dateString}`,
   });
   return response.data as VoteListResult;
 };

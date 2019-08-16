@@ -1,4 +1,5 @@
-export type Chamber = 'House' | 'Senate';
+export type CapitalizedChamber = 'House' | 'Senate';
+export type Chamber = 'house' | 'senate';
 
 export type URLString = string;
 
@@ -9,7 +10,15 @@ export interface BaseApiResult {
 }
 
 export interface BasePagedResult {
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   num_results: number;
   offset: number;
+}
+
+export interface BaseRequestParams {
+  format?: 'json' | 'xml';
+}
+
+export interface ChamberRequestParams extends BaseRequestParams {
+  chamber: Chamber;
 }

@@ -1,4 +1,4 @@
-import { BaseApiResult, Chamber, URLString } from '../types';
+import { BaseApiResult, CapitalizedChamber, URLString } from '../types';
 export type MemberId = string;
 
 interface SharedMember {
@@ -57,7 +57,7 @@ export interface Member extends SharedMember, MemberName {
 
 interface MemberRole extends SharedMember {
   congress: string;
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   senate_class: number;
   start_date: string;
   end_date: string;
@@ -110,7 +110,7 @@ export interface NewMember extends MemberName {
   id: MemberId;
   api_uri: URLString;
   party: 'R' | 'D' | 'I';
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   state: string;
   district: string;
   start_date: string;
@@ -152,7 +152,7 @@ export interface MemberVotes {
 
 interface MemberVote {
   member_id: MemberId;
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   congress: string;
   session: string;
   roll_call: string;
@@ -184,7 +184,7 @@ interface MemberVoteComparison {
   second_member_id: MemberId;
   second_member_api_uri: URLString;
   congress: string;
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   common_votes: string; // really a number
   disagree_votes: string; // really a number
   agree_percent: string; // really a number
@@ -208,7 +208,7 @@ interface MemberBill {
 interface MemberBillComparison {
   first_member_api_uri: URLString;
   second_member_api_uri: URLString;
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   congress: string;
   common_bills: string;
   bills: MemberBill[];
@@ -266,7 +266,7 @@ interface MemberCosponsors {
 export interface MemberListResult extends BaseApiResult {
   results: {
     congress: string;
-    chamber: Chamber;
+    chamber: CapitalizedChamber;
     num_results: number;
     offset: number;
     members: Member[];
@@ -291,7 +291,7 @@ export interface CurrentMemberListResult extends BaseApiResult {
 
 export interface LeavingMemberListResult extends BaseApiResult {
   congress: string;
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   num_results: number;
   offset: number;
   members: LeavingMember[];

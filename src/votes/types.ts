@@ -1,4 +1,4 @@
-import { BaseApiResult, BasePagedResult, Chamber, URLString } from '../types';
+import { BaseApiResult, BasePagedResult, CapitalizedChamber, URLString } from '../types';
 
 export interface Bill {
   number: string;
@@ -85,7 +85,7 @@ interface SpeakerVoteTotal {
 
 interface Vote {
   congress: number;
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   session: number;
   roll_call: number;
   source: URLString;
@@ -120,7 +120,7 @@ interface VoteWithPositions extends Vote {
 
 export interface VoteListResult extends BaseApiResult {
   results: {
-    chamber: Chamber;
+    chamber: CapitalizedChamber;
     offset: number;
     num_results: number;
     votes: Vote[];

@@ -1,4 +1,4 @@
-import { BaseApiResult, BasePagedResult, Chamber, URLString } from '../types';
+import { BaseApiResult, BasePagedResult, CapitalizedChamber, URLString } from '../types';
 import { MemberId } from '../members/types';
 type CommitteeId = string;
 
@@ -27,7 +27,7 @@ interface BaseSubcommittee {
 
 interface Subcommittee {
   congress: string;
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   num_results: number;
   id: CommitteeId;
   name: string;
@@ -56,7 +56,7 @@ interface CommitteeMember {
 }
 
 interface CommitteeHearing {
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   committee: string;
   committee_code: string;
   api_uri: URLString;
@@ -71,7 +71,7 @@ interface CommitteeHearing {
 
 export interface SingleCommittee extends BaseCommittee {
   congress: string;
-  chamber: Chamber;
+  chamber: CapitalizedChamber;
   num_results: number;
   current_members: CommitteeMember[];
 }

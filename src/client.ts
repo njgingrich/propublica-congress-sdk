@@ -30,6 +30,14 @@ export class ApiClient {
   public get congressNumber() {
     return this._congressNumber;
   }
+
+  public withDefaults(params: any) {
+    return {
+      format: 'json',
+      congressNumber: this.congressNumber,
+      ...params,
+    };
+  }
 }
 
 export function getApiClient(options: APIOptions): ApiClient {
