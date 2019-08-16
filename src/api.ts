@@ -26,7 +26,12 @@ export class CongressAPI {
   }
 
   public request(requestParams: RequestParams): Promise<any> {
-    return this.client.get(`${requestParams.url}.json`);
+    let url = requestParams.url;
+    if (requestParams.offset) {
+      url += `?offset=${requestParams.offset}`;
+    }
+
+    return this.client.get(`${url}.${requestParams.format}`);
   }
 
   public get congressNumber() {
@@ -49,5 +54,7 @@ interface APIOptions {
 }
 
 interface RequestParams {
+  format?: 'xml' | 'json';
+  offset?: number;
   url: string;
 }

@@ -5,7 +5,7 @@ import {
   CommitteeHearingListResult,
   SingleSubcommitteeResult,
 } from './types';
-import { Chamber, ChamberRequestParams } from '../types';
+import { ChamberRequestParams } from '../types';
 
 interface CongressNumberParams extends ChamberRequestParams {
   congressNumber?: number;

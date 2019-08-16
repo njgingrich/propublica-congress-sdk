@@ -22,3 +22,8 @@ export interface BaseRequestParams {
 export interface ChamberRequestParams extends BaseRequestParams {
   chamber: Chamber;
 }
+
+export interface PagedRequestParams extends BaseRequestParams {
+  // Must be a multiple of 20
+  offset?: number;
+}

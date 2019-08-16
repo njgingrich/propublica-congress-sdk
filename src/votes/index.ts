@@ -1,12 +1,12 @@
 import { CongressAPI } from '../api';
 import { VoteListResult, SingleVoteResult, NominationVotesResult } from './types';
-import { ChamberRequestParams } from '../types';
+import { ChamberRequestParams, PagedRequestParams } from '../types';
 
 function getDateString(date: Date): string {
   return `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}`;
 }
 
-interface RollCallVoteParams extends ChamberRequestParams {
+interface RollCallVoteParams extends ChamberRequestParams, PagedRequestParams {
   congressNumber?: number;
   number: number;
   sessionNumber?: 1 | 2;
