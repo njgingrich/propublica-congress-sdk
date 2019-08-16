@@ -1,4 +1,4 @@
-import { ApiClient } from '../client';
+import { CongressAPI } from '../api';
 import { ChamberRequestParams } from '../types';
 import { FloorActionListResult } from './types';
 
@@ -10,14 +10,14 @@ interface FloorActionsDateParams extends ChamberRequestParams {
   date: Date;
 }
 
-declare module '../client' {
-  interface ApiClient {
+declare module '../api' {
+  interface CongressAPI {
     getRecentFloorActions(params: ChamberRequestParams): Promise<FloorActionListResult>;
     getFloorActionsForDate(params: FloorActionsDateParams): Promise<FloorActionListResult>;
   }
 }
 
-ApiClient.prototype.getRecentFloorActions = async function(params: ChamberRequestParams) {
+CongressAPI.prototype.getRecentFloorActions = async function(params: ChamberRequestParams) {
   params = this.withDefaults(params);
 
   const response = await this.request({
@@ -26,7 +26,7 @@ ApiClient.prototype.getRecentFloorActions = async function(params: ChamberReques
   return response.data as FloorActionListResult;
 };
 
-ApiClient.prototype.getFloorActionsForDate = async function(params: FloorActionsDateParams) {
+CongressAPI.prototype.getFloorActionsForDate = async function(params: FloorActionsDateParams) {
   params = this.withDefaults(params);
 
   const response = await this.request({

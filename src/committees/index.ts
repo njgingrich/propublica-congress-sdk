@@ -1,64 +1,75 @@
-import { ApiClient } from '../client';
+import { CongressAPI } from '../api';
 import {
   CommitteeListResult,
   SingleCommitteeResult,
   CommitteeHearingListResult,
   SingleSubcommitteeResult,
 } from './types';
-import { Chamber } from '../types';
+import { Chamber, ChamberRequestParams } from '../types';
 
-declare module '../client' {
-  interface ApiClient {
-    getAllCommittees(chamber: Chamber): Promise<CommitteeListResult>;
-    getCommittee(chamber: Chamber, committeeId: string): Promise<SingleCommitteeResult>;
-    getRecentHearings(): Promise<CommitteeHearingListResult>;
-    getCommitteeHearings(
-      chamber: Chamber,
-      committeeId: string
-    ): Promise<CommitteeHearingListResult>;
-    getSubcommittee(
-      chamber: Chamber,
-      committeeId: string,
-      subcommitteeId: string
-    ): Promise<SingleSubcommitteeResult>;
+interface CongressNumberParams extends ChamberRequestParams {
+  congressNumber?: number;
+}
+
+interface CommitteeParams extends CongressNumberParams {
+  committeeId: string;
+}
+
+interface SubcommitteeParams extends CommitteeParams {
+  subcommitteeId: string;
+}
+
+declare module '../api' {
+  interface CongressAPI {
+    getAllCommittees(params: CongressNumberParams): Promise<CommitteeListResult>;
+    getCommittee(params: CommitteeParams): Promise<SingleCommitteeResult>;
+    getRecentHearings(params: CongressNumberParams): Promise<CommitteeHearingListResult>;
+    getCommitteeHearings(params: CommitteeParams): Promise<CommitteeHearingListResult>;
+    getSubcommittee(params: SubcommitteeParams): Promise<SingleSubcommitteeResult>;
   }
 }
 
-ApiClient.prototype.getAllCommittees = async function(chamber: Chamber) {
+CongressAPI.prototype.getAllCommittees = async function(params: CongressNumberParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `/${this.congressNumber}/${chamber}/committees`,
+    url: `/${params.congressNumber}/${params.chamber}/committees`,
   });
   return response.data as CommitteeListResult;
 };
 
-ApiClient.prototype.getCommittee = async function(chamber: Chamber, committeeId: string) {
+CongressAPI.prototype.getCommittee = async function(params: CommitteeParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `/${this.congressNumber}/${chamber}/committees/${committeeId}`,
+    url: `/${params.congressNumber}/${params.chamber}/committees/${params.committeeId}`,
   });
   return response.data as SingleCommitteeResult;
 };
 
-ApiClient.prototype.getRecentHearings = async function() {
+CongressAPI.prototype.getRecentHearings = async function(params: CongressNumberParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `/${this.congressNumber}/committees/hearings`,
+    url: `/${params.congressNumber}/committees/hearings`,
   });
   return response.data as CommitteeHearingListResult;
 };
 
-ApiClient.prototype.getCommitteeHearings = async function(chamber: Chamber, committeeId: string) {
+CongressAPI.prototype.getCommitteeHearings = async function(params: CommitteeParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `/${this.congressNumber}/${chamber}/committees/${committeeId}/hearings`,
+    url: `/${params.congressNumber}/${params.chamber}/committees/${params.committeeId}/hearings`,
   });
   return response.data as CommitteeHearingListResult;
 };
 
-ApiClient.prototype.getSubcommittee = async function(
-  chamber: Chamber,
-  committeeId: string,
-  subcommitteeId: string
-) {
+CongressAPI.prototype.getSubcommittee = async function(params: SubcommitteeParams) {
+  params = this.withDefaults(params);
+
   const response = await this.request({
-    url: `/${this.congressNumber}/${chamber}/committees/${committeeId}/subcommittees/${subcommitteeId}`,
+    url: `/${params.congressNumber}/${params.chamber}/committees/${params.committeeId}/subcommittees/${params.subcommitteeId}`,
   });
   return response.data as SingleSubcommitteeResult;
 };

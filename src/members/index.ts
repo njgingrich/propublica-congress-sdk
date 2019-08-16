@@ -1,4 +1,4 @@
-import { ApiClient } from '../client';
+import { CongressAPI } from '../api';
 import { BaseRequestParams, ChamberRequestParams } from '../types';
 import {
   MemberListResult,
@@ -39,8 +39,8 @@ interface CosponsoredBillsParams extends MemberIdParams {
   type: 'cosponsored' | 'withdrawn';
 }
 
-declare module '../client' {
-  interface ApiClient {
+declare module '../api' {
+  interface CongressAPI {
     getAllMembers(params: AllMembersParams): Promise<MemberListResult>;
     getMember(params: MemberIdParams): Promise<SingleMemberResult>;
     getNewMembers(): Promise<NewMemberListResult>;
@@ -53,7 +53,7 @@ declare module '../client' {
   }
 }
 
-ApiClient.prototype.getAllMembers = async function(params: AllMembersParams) {
+CongressAPI.prototype.getAllMembers = async function(params: AllMembersParams) {
   params = this.withDefaults(params);
 
   const response = await this.request({
@@ -62,7 +62,7 @@ ApiClient.prototype.getAllMembers = async function(params: AllMembersParams) {
   return response.data as MemberListResult;
 };
 
-ApiClient.prototype.getMember = async function(params: MemberIdParams) {
+CongressAPI.prototype.getMember = async function(params: MemberIdParams) {
   params = this.withDefaults(params);
 
   const response = await this.request({
@@ -71,14 +71,14 @@ ApiClient.prototype.getMember = async function(params: MemberIdParams) {
   return response.data as SingleMemberResult;
 };
 
-ApiClient.prototype.getNewMembers = async function() {
+CongressAPI.prototype.getNewMembers = async function() {
   const response = await this.request({
     url: `/members/new`,
   });
   return response.data as NewMemberListResult;
 };
 
-ApiClient.prototype.getMembersForState = async function(params: MembersForStateParams) {
+CongressAPI.prototype.getMembersForState = async function(params: MembersForStateParams) {
   params = this.withDefaults(params);
 
   let url = `/members/${params.chamber}/${params.state}/current`;
@@ -90,7 +90,7 @@ ApiClient.prototype.getMembersForState = async function(params: MembersForStateP
   return response.data as CurrentMemberListResult;
 };
 
-ApiClient.prototype.getLeavingMembers = async function(params: LeavingMembersParams) {
+CongressAPI.prototype.getLeavingMembers = async function(params: LeavingMembersParams) {
   params = this.withDefaults(params);
 
   const response = await this.request({
@@ -99,7 +99,7 @@ ApiClient.prototype.getLeavingMembers = async function(params: LeavingMembersPar
   return response.data as LeavingMemberListResult;
 };
 
-ApiClient.prototype.getMemberVotePositions = async function(params: MemberIdParams) {
+CongressAPI.prototype.getMemberVotePositions = async function(params: MemberIdParams) {
   params = this.withDefaults(params);
 
   const response = await this.request({
@@ -108,7 +108,7 @@ ApiClient.prototype.getMemberVotePositions = async function(params: MemberIdPara
   return response.data as MemberVotesResult;
 };
 
-ApiClient.prototype.getMemberVoteComparison = async function(params: TwoMemberParams) {
+CongressAPI.prototype.getMemberVoteComparison = async function(params: TwoMemberParams) {
   params = this.withDefaults(params);
 
   const response = await this.request({
@@ -117,7 +117,7 @@ ApiClient.prototype.getMemberVoteComparison = async function(params: TwoMemberPa
   return response.data as MemberVoteComparisonResult;
 };
 
-ApiClient.prototype.getMemberSponsorshipsComparison = async function(params: TwoMemberParams) {
+CongressAPI.prototype.getMemberSponsorshipsComparison = async function(params: TwoMemberParams) {
   params = this.withDefaults(params);
 
   const response = await this.request({
@@ -126,7 +126,9 @@ ApiClient.prototype.getMemberSponsorshipsComparison = async function(params: Two
   return response.data as MemberBillComparisonResult;
 };
 
-ApiClient.prototype.getCosponsoredBillsForMember = async function(params: CosponsoredBillsParams) {
+CongressAPI.prototype.getCosponsoredBillsForMember = async function(
+  params: CosponsoredBillsParams
+) {
   params = this.withDefaults(params);
 
   const response = await this.request({

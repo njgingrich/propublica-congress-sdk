@@ -1,6 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
+import './votes';
+import './members';
 
-export class ApiClient {
+export class CongressAPI {
   private _congressNumber: number = 116;
   private apiVersion: string = 'v1';
   private client: AxiosInstance;
@@ -38,10 +40,6 @@ export class ApiClient {
       ...params,
     };
   }
-}
-
-export function getApiClient(options: APIOptions): ApiClient {
-  return new ApiClient(options);
 }
 
 interface APIOptions {
