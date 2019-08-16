@@ -1,7 +1,20 @@
 {
   "name": "propublica-congress-sdk",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "SDK for ProPublica Congress API",
+  "keywords": [
+    "typescript",
+    "sdk",
+    "propublica",
+    "congress",
+    "api",
+    "government",
+    "senate",
+    "house"
+  ],
+  "homepage": "https://github.com/njgingrich/propublica-congress-sdk",
+  "repository": "github:njgingrich/propublica-congress-sdk",
+  "bugs": "https://github.com/njgingrich/propublica-congress-sdk/issues",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Nathan Gingrich (@njgingrich)",
@@ -18,8 +31,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "npm run build && node ./dist/index.js",
-    "prettier": "./node_modules/.bin/prettier -c src/**/*.ts"
+    "dev": "yarn run build && node ./dist/index.js",
+    "prettier": "./node_modules/.bin/prettier -c src/**/*.ts",
+    "push": "yarn run build && yarn publish"
   },
   "dependencies": {
     "@types/node": "^12.6.8",
