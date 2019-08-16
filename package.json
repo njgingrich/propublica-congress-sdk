@@ -30,7 +30,9 @@
     "typescript": "^3.5.2"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "yarn run build:clean && yarn run build:run",
+    "build:run": "tsc",
+    "build:clean": "rm -rf ./dist",
     "dev": "yarn run build && node ./dist/index.js",
     "prettier": "./node_modules/.bin/prettier -c src/**/*.ts",
     "push": "yarn run build && yarn publish"

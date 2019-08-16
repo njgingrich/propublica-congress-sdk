@@ -1,6 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import './votes';
-import './members';
 
 export class CongressAPI {
   private _congressNumber: number = 116;
