@@ -31,7 +31,7 @@ CongressAPI.prototype.getFloorActionsForDate = async function(params: FloorActio
   params = this.withDefaults(params);
 
   const response = await this.request({
-    url: `/${this.congressNumber}/${params.chamber}/${getDatePath(params.date)}`,
+    url: `/${this.congressNumber}/${params.chamber}/floor_updates/${getDatePath(params.date)}`,
     format: params.format,
   });
   return response.data as FloorActionListResult;
