@@ -3,7 +3,7 @@ import { ChamberRequestParams } from '../types';
 import { FloorActionListResult } from './types';
 
 function getDatePath(date: Date): string {
-  return `${date.getUTCFullYear()}/${date.getUTCMonth()}/${date.getUTCDate()}`;
+  return `${date.getUTCFullYear()}/${date.getUTCMonth() + 1}/${date.getUTCDate()}`;
 }
 
 interface FloorActionsDateParams extends ChamberRequestParams {

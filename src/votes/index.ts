@@ -3,7 +3,7 @@ import { VoteListResult, SingleVoteResult, NominationVotesResult } from './types
 import { ChamberRequestParams, PagedRequestParams, BaseRequestParams } from '../types';
 
 function getDateString(date: Date): string {
-  return `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}`;
+  return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
 }
 
 interface RollCallVoteParams extends ChamberRequestParams, PagedRequestParams {
