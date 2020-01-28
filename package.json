@@ -1,6 +1,6 @@
 {
   "name": "propublica-congress-sdk",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "SDK for ProPublica Congress API",
   "keywords": [
     "typescript",
