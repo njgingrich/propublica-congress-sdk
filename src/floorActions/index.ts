@@ -3,7 +3,7 @@ import { ChamberRequestParams } from '../types';
 import { FloorActionListResult } from './types';
 
 function getDatePath(date: Date): string {
-  return `${date.getUTCFullYear()}/${date.getUTCMonth() + 1}/${date.getUTCDate()}`;
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 }
 
 interface FloorActionsDateParams extends ChamberRequestParams {
@@ -31,7 +31,7 @@ CongressAPI.prototype.getFloorActionsForDate = async function(params: FloorActio
   params = this.withDefaults(params);
 
   const response = await this.request({
-    url: `/${this.congressNumber}/${params.chamber}/floor_updates/${getDatePath(params.date)}`,
+    url: `/${params.chamber}/floor_updates/${getDatePath(params.date)}`,
     format: params.format,
   });
   return response.data as FloorActionListResult;
