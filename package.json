@@ -21,13 +21,13 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
-    "@typescript-eslint/parser": "^1.13.0",
-    "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "prettier": "^1.18.2",
-    "typescript": "^3.5.2"
+    "@typescript-eslint/eslint-plugin": "1.13.0",
+    "@typescript-eslint/parser": "1.13.0",
+    "eslint": "6.1.0",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-plugin-prettier": "3.1.0",
+    "prettier": "1.18.2",
+    "typescript": "3.5.2"
   },
   "scripts": {
     "build": "yarn run build:clean && yarn run build:run",
@@ -38,7 +38,7 @@
     "push": "yarn run build && yarn publish"
   },
   "dependencies": {
-    "@types/node": "^12.6.8",
-    "axios": "^0.19.0"
+    "@types/node": "12.6.8",
+    "axios": "1.6.2"
   }
 }
